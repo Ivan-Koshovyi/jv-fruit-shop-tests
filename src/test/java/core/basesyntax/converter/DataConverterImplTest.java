@@ -51,4 +51,13 @@ class DataConverterImplTest {
             dataConverter.convertToTransaction(input);
         });
     }
+
+    @Test
+    void invalidOperationFormat_NotOk() {
+        List<String> input = Arrays.asList("R,apple,10");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            dataConverter.convertToTransaction(input);
+        });
+    }
 }
