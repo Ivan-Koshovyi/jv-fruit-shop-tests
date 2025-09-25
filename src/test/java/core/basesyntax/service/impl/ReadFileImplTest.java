@@ -15,12 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class ReadFileImplTest {
-    private ReadFile readFile;
-    private List <String> LIST_RESALT_READING_IS_OK;
-    private List <String> LIST_RESALT_READING_IS_NOT_OK;
+    private static ReadFile readFile;
+    private static List <String> LIST_RESALT_READING_IS_OK;
+    private static List <String> LIST_RESALT_READING_IS_NOT_OK;
+    private static String linkFile;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         readFile = new ReadFileImpl();
         LIST_RESALT_READING_IS_OK = List.of("b,banana,20",
                 "b,apple,100",
@@ -32,18 +33,19 @@ class ReadFileImplTest {
                 "s,banana,50");
         LIST_RESALT_READING_IS_NOT_OK = List.of("b,banana,20",
                 "b,apple,100");
+        linkFile = "src/main/resources/reportToRead.csv";
     }
 
     @Test
     void readFile_OK() {
-        String string = "src/main/resources/reportToRead.csv";
+        String string = linkFile;
         List<String> actual = readFile.read(string);
         assertEquals(LIST_RESALT_READING_IS_OK, actual);
     }
 
     @Test
     void readFile_NotOK() {
-        String string = "src/main/resources/reportToRead.csv";
+        String string = linkFile;
         List<String> actual = readFile.read(string);
         assertNotEquals(LIST_RESALT_READING_IS_NOT_OK, actual);
     }
@@ -51,7 +53,7 @@ class ReadFileImplTest {
     @Test
     void fileNotFound_NotOk() {
         assertThrows(RuntimeException.class, () -> {
-           readFile.read("main");
+           readFile.read("src/main/resources/NonExistentFile.csv");
         });
     }
 }
