@@ -1,27 +1,29 @@
 package core.basesyntax.service.impl;
 
-import core.basesyntax.converter.DataConverter;
-import core.basesyntax.converter.DataConverterImpl;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.ShopService;
 import core.basesyntax.strategy.OperationHandler;
 import core.basesyntax.strategy.OperationStrategy;
-import core.basesyntax.strategy.impl.*;
+import core.basesyntax.strategy.impl.BalanceOperation;
+import core.basesyntax.strategy.impl.OperationStrategyImpl;
+import core.basesyntax.strategy.impl.PurchaseOperation;
+import core.basesyntax.strategy.impl.ReturnOperation;
+import core.basesyntax.strategy.impl.SupplyOperation;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ShopServiceImplTest {
     private static ShopService shopService;
-    private static DataConverter dataConverter;
 
     @BeforeAll
     static void setUp() {
-        dataConverter = new DataConverterImpl();
         Map<FruitTransaction.Operation, OperationHandler> operationHandlers = new HashMap<>();
         operationHandlers.put(FruitTransaction.Operation.BALANCE, new BalanceOperation());
         operationHandlers.put(FruitTransaction.Operation.PURCHASE, new PurchaseOperation());
@@ -59,7 +61,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void SupplyIsInvalid_NotOk() {
+    void supplyIsInvalid_NotOk() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.SUPPLY, "banana", -20)
         );
@@ -69,7 +71,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void PurchaseIsInvalid_NotOk() {
+    void purchaseIsInvalid_NotOk() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 10),
                 new FruitTransaction(FruitTransaction.Operation.PURCHASE, "banana", 20)
@@ -80,7 +82,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void ReturnIsInvalid_NotOk() {
+    void returnIsInvalid_NotOk() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.RETURN, "banana", -20)
         );

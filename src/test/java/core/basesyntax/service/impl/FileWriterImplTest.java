@@ -1,37 +1,37 @@
 package core.basesyntax.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
 import core.basesyntax.service.FileWriter;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class FileWriterImplTest {
     private static FileWriter fileWriter;
-    private static String linkFile;
 
     @BeforeAll
     static void setUp() {
         fileWriter = new FileWriterImpl();
-        linkFile = "src/main/resources/finalReport.csv";
     }
 
     @Test
     void fileWrite_Ok() {
-        String content = "fruit, quantity\napple, 10\nbanana, 5";
-        fileWriter.write(content, linkFile);
-        String fileContent = null;
         try {
-            fileContent = Files.readString(Path.of(linkFile));
+            Path tempFile = Files.createTempFile("testReport", ".txt");
+            String content = "fruit, quantity\napple, 10\nbanana, 5";
+            fileWriter.write(content, String.valueOf(tempFile));
+            String fileContent = Files.readString(Path.of(String.valueOf(tempFile)));
+            assertEquals(content, fileContent);
+            assertTrue(fileContent.contains("apple"));
+            assertTrue(fileContent.contains("banana"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(content, fileContent);
-        assertTrue(fileContent.contains("apple"));
-        assertTrue(fileContent.contains("banana"));
     }
 
     @Test

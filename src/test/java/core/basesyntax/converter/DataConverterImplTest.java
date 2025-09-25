@@ -1,11 +1,13 @@
 package core.basesyntax.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.model.FruitTransaction;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class DataConverterImplTest {
     private static DataConverter dataConverter;
@@ -56,6 +58,14 @@ class DataConverterImplTest {
     void invalidOperationFormat_NotOk() {
         List<String> input = Arrays.asList("R,apple,10");
 
+        assertThrows(IllegalArgumentException.class, () -> {
+            dataConverter.convertToTransaction(input);
+        });
+    }
+
+    @Test
+    void arrayIsNull_NotOk() {
+        List<String> input = Arrays.asList(null + "R,apple,10");
         assertThrows(IllegalArgumentException.class, () -> {
             dataConverter.convertToTransaction(input);
         });

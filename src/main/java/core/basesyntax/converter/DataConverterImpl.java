@@ -1,7 +1,6 @@
 package core.basesyntax.converter;
 
 import core.basesyntax.model.FruitTransaction;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +10,6 @@ public class DataConverterImpl implements DataConverter {
     private static final int TYPE_SERVICE = 0;
     private static final int FRUIT = 1;
     private static final int COUNT_OF_FRUIT = 2;
-
-    
 
     @Override
     public List<FruitTransaction> convertToTransaction(List<String> readFile) {
