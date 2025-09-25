@@ -12,10 +12,8 @@ public class ReadFileImpl implements ReadFile {
             return bufferedReader.lines()
                     .skip(1)
                     .toList();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("File not found: " + fileName, e);
         } catch (IOException e) {
-            throw new RuntimeException("Error while reading file: " + fileName, e);
+            throw new RuntimeException("File not found: " + fileName, e);
         }
     }
 }
