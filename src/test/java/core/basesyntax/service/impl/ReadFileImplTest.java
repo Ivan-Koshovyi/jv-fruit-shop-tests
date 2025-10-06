@@ -14,39 +14,44 @@ import org.junit.jupiter.api.Test;
 
 class ReadFileImplTest {
     private static ReadFile readFile;
-    private static List<String> LIST_RESULT_READING_IS_OK;
-    private static List<String> LIST_RESULT_READING_IS_NOT_OK;
-    private static String linkFile;
+    private static final List<String> LIST_RESULT_READING_IS_OK = List.of("b,banana,20",
+            "b,apple,100",
+            "s,banana,100",
+            "p,banana,13",
+            "r,apple,10",
+            "p,apple,20",
+            "p,banana,5",
+            "s,banana,50");
+    private static final List<String> LIST_RESULT_READING_IS_NOT_OK = List.of("b,banana,20",
+            "b,apple,100");
+    private static final String linkFile = "src/test/resources/reportToRead.csv";
 
     @BeforeAll
     static void setUp() {
         readFile = new ReadFileImpl();
-        LIST_RESULT_READING_IS_OK = List.of("b,banana,20",
-                "b,apple,100",
-                "s,banana,100",
-                "p,banana,13",
-                "r,apple,10",
-                "p,apple,20",
-                "p,banana,5",
-                "s,banana,50");
-        LIST_RESULT_READING_IS_NOT_OK = List.of("b,banana,20",
-                "b,apple,100");
-        linkFile = "src/main/resources/reportToRead.csv";
     }
 
     @Test
-    void readFile_OK() {
+    void readInFile_OK() {
         Path tempFile = null;
         try {
             tempFile = Files.createTempFile("testFile", ".txt");
-            Files.writeString(tempFile, "type,fruit,quantity\n"
-                    + "b,banana,20\n"
-                    + "b,apple,100\n"
-                    + "s,banana,100\n"
-                    + "p,banana,13\n"
-                    + "r,apple,10\n"
-                    + "p,apple,20\n"
-                    + "p,banana,5\n"
+            Files.writeString(tempFile, "type,fruit,quantity"
+                    + System.lineSeparator()
+                    + "b,banana,20"
+                    + System.lineSeparator()
+                    + "b,apple,100"
+                    + System.lineSeparator()
+                    + "s,banana,100"
+                    + System.lineSeparator()
+                    + "p,banana,13"
+                    + System.lineSeparator()
+                    + "r,apple,10"
+                    + System.lineSeparator()
+                    + "p,apple,20"
+                    + System.lineSeparator()
+                    + "p,banana,5"
+                    + System.lineSeparator()
                     + "s,banana,50");
             List<String> actual = readFile.read(String.valueOf(tempFile));
             assertEquals(LIST_RESULT_READING_IS_OK, actual);
@@ -57,7 +62,7 @@ class ReadFileImplTest {
     }
 
     @Test
-    void readFile_NotOK() {
+    void readInFile_NotOK() {
         String string = linkFile;
         List<String> actual = readFile.read(string);
         assertNotEquals(LIST_RESULT_READING_IS_NOT_OK, actual);

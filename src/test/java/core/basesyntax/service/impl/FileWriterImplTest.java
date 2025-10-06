@@ -20,22 +20,21 @@ class FileWriterImplTest {
     }
 
     @Test
-    void fileWrite_Ok() {
+    void writeInFile_Ok() {
         try {
             Path tempFile = Files.createTempFile("testReport", ".txt");
             String content = "fruit, quantity\napple, 10\nbanana, 5";
             fileWriter.write(content, String.valueOf(tempFile));
             String fileContent = Files.readString(Path.of(String.valueOf(tempFile)));
             assertEquals(content, fileContent);
-            assertTrue(fileContent.contains("apple"));
-            assertTrue(fileContent.contains("banana"));
+            assertTrue(fileContent.contains("apple") && fileContent.contains("banana"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
-    void fileIsInvalid_NotOk() {
+    void writeInFile_NotOk() {
         String content = "fruit, quantity\napple, 10\nbanana, 5";
         assertThrows(RuntimeException.class, () -> {
             fileWriter.write(content, "?:/Error");

@@ -18,26 +18,18 @@ class DataConverterImplTest {
     }
 
     @Test
-    void convert_Ok() {
+    void convertStringsToFruitTransactions_Ok() {
         List<String> input = Arrays.asList("b,apple,10", "s,banana,5");
-
-        List<FruitTransaction> transactions = dataConverter.convertToTransaction(input);
-
-        assertEquals(2, transactions.size());
-
-        FruitTransaction first = transactions.get(0);
-        assertEquals(FruitTransaction.Operation.BALANCE, first.getOperation());
-        assertEquals("apple", first.getFruit());
-        assertEquals(10, first.getQuantity());
-
-        FruitTransaction second = transactions.get(1);
-        assertEquals(FruitTransaction.Operation.SUPPLY, second.getOperation());
-        assertEquals("banana", second.getFruit());
-        assertEquals(5, second.getQuantity());
+        List<FruitTransaction> actual = dataConverter.convertToTransaction(input);
+        List<FruitTransaction> expected = List.of(
+                new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", 10),
+                new FruitTransaction(FruitTransaction.Operation.SUPPLY, "banana", 5)
+        );
+        assertEquals(expected, actual);
     }
 
     @Test
-    void invalidNumberFormat_NotOk() {
+    void numberFormat_NotOk() {
         List<String> input = Arrays.asList("b,apple,ten");
 
         assertThrows(NumberFormatException.class, () -> {
@@ -46,7 +38,7 @@ class DataConverterImplTest {
     }
 
     @Test
-    void invalidArrayLength_NotOk() {
+    void arrayLength_NotOk() {
         List<String> input = Arrays.asList("b,apple");
 
         assertThrows(RuntimeException.class, () -> {
@@ -55,7 +47,7 @@ class DataConverterImplTest {
     }
 
     @Test
-    void invalidOperationFormat_NotOk() {
+    void operationFormat_NotOk() {
         List<String> input = Arrays.asList("R,apple,10");
 
         assertThrows(IllegalArgumentException.class, () -> {

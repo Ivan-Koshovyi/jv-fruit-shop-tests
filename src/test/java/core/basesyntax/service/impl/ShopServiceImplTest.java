@@ -34,7 +34,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void shopService_Ok() {
+    void processTransactions_Ok() {
         List<FruitTransaction> transactions = Arrays.asList(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 20),
                 new FruitTransaction(FruitTransaction.Operation.PURCHASE, "banana", 10),
@@ -51,7 +51,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void balanceIsInvalid_NotOk() {
+    void balanceIsInvalid() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", -20)
         );
@@ -61,7 +61,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void supplyIsInvalid_NotOk() {
+    void supplyIsInvalid() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.SUPPLY, "banana", -20)
         );
@@ -71,7 +71,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void purchaseIsInvalid_NotOk() {
+    void purchaseIsInvalid() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 10),
                 new FruitTransaction(FruitTransaction.Operation.PURCHASE, "banana", 20)
@@ -82,7 +82,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void returnIsInvalid_NotOk() {
+    void returnIsInvalid() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.RETURN, "banana", -20)
         );
@@ -92,7 +92,7 @@ class ShopServiceImplTest {
     }
 
     @Test
-    void unknownOperation_NotOk() {
+    void unknownOperation() {
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(null, "banana", -20)
         );

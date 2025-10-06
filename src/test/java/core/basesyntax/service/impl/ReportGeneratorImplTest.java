@@ -28,8 +28,8 @@ class ReportGeneratorImplTest {
 
         String report = reportGenerator.getReport(fruitMap);
 
-        assertTrue(report.contains("fruit, quantity"));
-        assertTrue(report.contains("banana,40"));
-        assertTrue(report.contains("apple,30"));
+        assertTrue(report.contains("fruit, quantity")
+                && report.contains("banana,40")
+                && report.contains("apple,30"));
     }
 }
