@@ -23,7 +23,11 @@ class FileWriterImplTest {
     void writeInFile_Ok() {
         try {
             Path tempFile = Files.createTempFile("testReport", ".txt");
-            String content = "fruit, quantity\napple, 10\nbanana, 5";
+            String content = "fruit, quantity"
+                    + System.lineSeparator()
+                    + "apple, 10"
+                    + System.lineSeparator()
+                    + "banana, 5";
             fileWriter.write(content, String.valueOf(tempFile));
             String fileContent = Files.readString(Path.of(String.valueOf(tempFile)));
             assertEquals(content, fileContent);
